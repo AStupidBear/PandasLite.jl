@@ -6,7 +6,6 @@ df = pd.DataFrame(Dict(:name => ["a", "b"], :age => [27, 30]))
 age = values(df.age)
 age[2] = 31
 @test df.loc[1, "age"] == 31
-@test df.loc[0, end] == 27
 
 df = pd.read_csv(joinpath(dirname(@__FILE__), "test.csv"))
 @test isa(df, PandasLite.DataFrame)
@@ -25,7 +24,7 @@ x = pd.Series([3, 5], index = [:a, :b])
 @test x.b == 5
 @test x.iloc[1] == 3
 @test x.iloc[2] == 5
-@test x.iloc[end] = 5
+@test x.iloc[end] == 5
 @test length(x) == 2
 @test values(x + 1) == [4, 6]
 @test x.sum() == 8
