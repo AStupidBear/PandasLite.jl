@@ -1,5 +1,6 @@
 name = "PandasLite"
 uuid = "f5117550-fbe7-11e9-2624-0f3969024220"
+version = "0.1.0"
 
 [deps]
 Atom = "c52e3926-4ff0-5f6e-af25-54175e0327b1"
