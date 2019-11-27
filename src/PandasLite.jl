@@ -5,6 +5,7 @@ using PyCall
 using Compat
 using TableTraits
 using Dates
+using Requires
 
 export values, DataFrame, Series, np, pd
 export @pytype, @pyasvec
@@ -29,6 +30,7 @@ function __init__()
     if get(ENV, "PD_CONSOLID", "false") == "false"
         noconsolidation()
     end
+    @require Atom="c52e3926-4ff0-5f6e-af25-54175e0327b1" include("juno.jl")
 end
 
 const pre_type_map = []
@@ -262,6 +264,5 @@ function Base.setproperty!(x::PandasWrapped, s::Symbol, v)
 end
 
 include("miscellaneous.jl")
-include("juno.jl")
 
 end

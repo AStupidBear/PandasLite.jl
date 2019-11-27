@@ -1,4 +1,4 @@
-using Random, Atom
+using Random
 
 export JTable
 
