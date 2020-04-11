@@ -3,6 +3,8 @@ PandasLite.jl
 
 A fork of Pandas.jl whose syntax is closer to native pandas.
 
+[![Travis status](https://travis-ci.org/AStupidBear/PandasLite.jl.svg?branch=master)](https://travis-ci.org//AStupidBear/PandasLite.jl)
+
 =============
 
 This package provides a Julia interface to the excellent [pandas](http://pandas.pydata.org/pandas-docs/stable/) package. It sticks closely to the pandas API. One exception is that integer-based indexing is automatically converted from Python's 0-based indexing to Julia's 1-based indexing.
