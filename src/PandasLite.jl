@@ -33,6 +33,8 @@ function __init__()
     @require Atom="c52e3926-4ff0-5f6e-af25-54175e0327b1" include("juno.jl")
 end
 
+version() = VersionNumber(pd.__version__)
+
 const pre_type_map = []
 
 # Maps a python object corresponding to a PandasLite class to a Julia type which
@@ -162,8 +164,8 @@ end
 @pytype Series () -> pd.core.series.Series
 @pytype Iloc () -> pd.core.indexing._iLocIndexer
 @pytype Loc () -> pd.core.indexing._LocIndexer
-@pytype Index () -> pd.core.index.Index
-@pytype MultiIndex () -> pd.core.index.MultiIndex
+@pytype Index () -> version() < VersionNumber(1) ? pd.core.index.Index : pd.core.indexes.multi.Index 
+@pytype MultiIndex () -> version() < VersionNumber(1) ? pd.core.index.MultiIndex : pd.core.indexes.multi.MultiIndex
 
 Base.size(x::Union{Loc, Iloc}) = x.obj.shape
 Base.size(df::PandasWrapped, i::Integer) = size(df)[i]

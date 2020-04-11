@@ -12,6 +12,7 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Requires = "ae029012-a4dd-5104-9daa-d747884805df"
 TableTraits = "3783bdb8-4a98-5b6b-af9a-565f29a5fe9c"
 TableTraitsUtils = "382cd787-c1b6-5bf2-a167-d5b971a19bda"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 Compat = "2, 3"
