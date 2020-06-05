@@ -1,7 +1,7 @@
 PandasLite.jl
 =============
 
-[![Travis status](https://travis-ci.org/AStupidBear/PandasLite.jl.svg?branch=master)](https://travis-ci.org//AStupidBear/PandasLite.jl)
+[![Travis status](https://travis-ci.com/AStupidBear/PandasLite.jl.svg?branch=master)](https://travis-ci.com/AStupidBear/PandasLite.jl)
 
 A fork of Pandas.jl whose syntax is closer to native pandas.
 
