@@ -2,6 +2,7 @@ PandasLite.jl
 =============
 
 [![Travis status](https://travis-ci.com/AStupidBear/PandasLite.jl.svg?branch=master)](https://travis-ci.com/AStupidBear/PandasLite.jl)
+[![Coverage](https://codecov.io/gh/AStupidBear/GCMAES.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/AStupidBear/GCMAES.jl)
 
 A fork of Pandas.jl whose syntax is closer to native pandas.
 
