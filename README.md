@@ -1,7 +1,7 @@
 PandasLite.jl
 =============
 
-[![Travis status](https://travis-ci.com/AStupidBear/PandasLite.jl.svg?branch=master)](https://travis-ci.com/AStupidBear/PandasLite.jl)
+[![Build Status](https://travis-ci.com/AStupidBear/PandasLite.jl.svg?branch=master)](https://travis-ci.com/AStupidBear/PandasLite.jl)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/AStupidBear/PandasLite.jl?svg=true)](https://ci.appveyor.com/project/AStupidBear/PandasLite-jl)
 [![Coverage](https://codecov.io/gh/AStupidBear/PandasLite.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/AStupidBear/PandasLite.jl)
 
