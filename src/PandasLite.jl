@@ -27,7 +27,7 @@ function __init__()
     PyCall.pytype_mapping(np.float64, Float64)
     PyCall.pytype_mapping(np.int32, Int32)
     PyCall.pytype_mapping(np.int64, Int64)
-    if get(ENV, "PD_CONSOLID", "false") == "false"
+    if get(ENV, "PD_NO_CONSOLID", "0") == "1"
         noconsolidation()
     end
     @require Atom="c52e3926-4ff0-5f6e-af25-54175e0327b1" include("juno.jl")
