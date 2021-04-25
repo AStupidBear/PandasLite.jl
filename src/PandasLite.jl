@@ -114,6 +114,9 @@ struct StringRange{T <: AbstractString}
 end
 (::Colon)(start::T, stop::T) where T <: AbstractString = StringRange{T}(start, stop)
 
+Base.show(io::IO, r::StringRange) = 
+    print(io, '"', r.start, '"', ':', '"', r.stop, '"')
+
 PyCall.PyObject(x::Colon) = pybuiltin("slice")(nothing, nothing, nothing)
 PyCall.PyObject(x::StringRange) = pybuiltin("slice")(x.start, x.stop)
 
