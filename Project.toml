@@ -1,6 +1,6 @@
 name = "PandasLite"
 uuid = "f5117550-fbe7-11e9-2624-0f3969024220"
-version = "0.1.9"
+version = "0.1.8"
 
 [deps]
 Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
