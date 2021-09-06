@@ -28,7 +28,7 @@ x = pd.Series([3, 5], index = [:a, :b])
 @test length(x) == 2
 @test values(x + 1) == [4, 6]
 @test x.sum() == 8
-@test eltype(x) == Int64
+@test eltype(x) == Int
 @test all(x.iloc[1:2] == x)
 
 df = pd.DataFrame()
