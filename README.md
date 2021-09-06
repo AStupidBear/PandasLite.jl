@@ -1,8 +1,7 @@
 PandasLite.jl
 =============
 
-[![Build Status](https://travis-ci.com/AStupidBear/PandasLite.jl.svg?branch=master)](https://travis-ci.com/AStupidBear/PandasLite.jl)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/AStupidBear/PandasLite.jl?svg=true)](https://ci.appveyor.com/project/AStupidBear/PandasLite-jl)
+[![Build Status](https://github.com/AStupidBear/PandasLite.jl/workflows/CI/badge.svg)](https://github.com/AStupidBear/PandasLite.jl/actions)
 [![Coverage](https://codecov.io/gh/AStupidBear/PandasLite.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/AStupidBear/PandasLite.jl)
 
 A fork of Pandas.jl whose syntax is closer to native pandas.
