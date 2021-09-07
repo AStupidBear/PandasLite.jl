@@ -191,7 +191,7 @@ should_offset(::Union{Iloc, Index, MultiIndex}, args...) = true
 Base.show(io::IO, df::PandasWrapped) = println(io, df.__str__())
 
 for (jl_op, py_op, py_opᵒ) in [(:+, :__add__, :__add__), (:*, :__mul__, :__mul__),
-                               (:/, :__div__, :__rdiv__), (:-, :__sub__, :__rsub__),
+                               (:/, :__truediv__, :__rtruediv__), (:-, :__sub__, :__rsub__),
                                (:(==), :__eq__, :__eq__), (:!=, :__ne__, :__ne__),
                                (:>, :__gt__, :__lt__), (:<, :__lt__, :__gt__),
                                (:>=, :__ge__, :__le__), (:<=, :__le__, :__ge__),

@@ -31,6 +31,10 @@ x = pd.Series([3, 5], index = [:a, :b])
 @test eltype(x) == Int
 @test all(x.iloc[1:2] == x)
 
+# Rolling
+roll = Series([1,2,3,4,5]).rolling(3)
+@test isequal(values(roll.mean()), [NaN, NaN, 2.0, 3.0, 4.0])
+
 df = pd.DataFrame()
 df["a"] = [1]
 df["b"] = pd.to_datetime("2015-01-01")
@@ -41,3 +45,5 @@ df["d"] = "abcde"
 @test Array(df["b"]) == values(df["b"]) == [DateTime(2015, 1, 1)]
 @test Array(df["c"]) == values(df["c"]) == [Millisecond(1800000)]
 @test Array(df["d"]) == values(df["d"]) == ["abcde"]
+@test Array(df["a"] / 2) == values(df["a"] / 2) == [0.5]
+@test Array(2 / df["a"]) == values(2 / df["a"]) == [2]
