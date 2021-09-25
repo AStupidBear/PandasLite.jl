@@ -73,9 +73,9 @@ end
 
 function Base.Array(x::PyObject)
     if x.dtype.kind == "M"
-        map(z -> unix2datetime(z / 1e9), x.astype("int64"))
+        map(z -> unix2datetime(z / 1e9), x.view("int64"))
     elseif x.dtype.kind == "m"
-        map(z -> Millisecond(z / 1e6), x.astype("int64"))
+        map(z -> Millisecond(z / 1e6), x.view("int64"))
     elseif x.dtype.kind == "O" && get(x, 0) isa String
         convert(Array{String}, x)
     elseif x.dtype.kind == "O"
