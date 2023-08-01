@@ -8,7 +8,7 @@ using Test
 
 table_array = [(a=1, b="John", c=3.2), (a=2, b="Sally", c=5.8)]
 
-df = DataFrame(table_array)
+df = pd.DataFrame(table_array)
 
 @test collect(df.columns) == ["a", "b", "c"]
 @test values(df[:a]) == [1,2]
@@ -34,11 +34,11 @@ cols = TableTraits.get_columns_copy_using_missing(df)
 
 table_array2 = [(a=1, b=DataValue("John"), c=3.2), (a=2, b=DataValue("Sally"), c=5.8)]
 
-@test_throws ArgumentError DataFrame(table_array2)
+@test_throws ArgumentError pd.DataFrame(table_array2)
 
 table_array3 = [(a=DataValue{Int}(), b="John", c=DataValue(3.2)), (a=DataValue(2), b="Sally", c=DataValue{Float64}())]
 
-df3 = DataFrame(table_array3)
+df3 = pd.DataFrame(table_array3)
 
 it3_collected = collect(IteratorInterfaceExtensions.getiterator(df3))
 

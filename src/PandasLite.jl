@@ -5,10 +5,11 @@ using PyCall
 using Compat
 using TableTraits
 using Dates
-using Requires
 
-export values, DataFrame, Series, np, pd
+export values, np, pd
 export @pytype, @pyasvec
+
+include("index.jl")
 
 const np = PyNULL()
 const pd = PyNULL()
@@ -30,7 +31,6 @@ function __init__()
     if get(ENV, "PD_NO_CONSOLID", "0") == "1"
         noconsolidation()
     end
-    @require Atom="c52e3926-4ff0-5f6e-af25-54175e0327b1" include("juno.jl")
 end
 
 version() = VersionNumber(pd.__version__)
@@ -72,40 +72,41 @@ macro pytype(name, class)
 end
 
 function Base.Array(x::PyObject)
-    if x.dtype.kind == "M"
-        map(z -> unix2datetime(z / 1e9), x.view("int64"))
-    elseif x.dtype.kind == "m"
-        map(z -> Millisecond(z / 1e6), x.view("int64"))
-    elseif x.dtype.kind == "O" && get(x, 0) isa String
-        convert(Array{String}, x)
-    elseif x.dtype.kind == "O"
-        map(PyAny, PyAny(x))
-    else
-        convert(PyAny, x)
+    if hasproperty(x, :dtype)
+        x_kind = x.dtype.kind
+        if x_kind == "M"
+            return map(z -> unix2datetime(z / 1e9), x.view("int64"))
+        elseif x_kind == "m"
+            return map(z -> Millisecond(z / 1e6), x.view("int64"))
+        elseif x_kind == "O" && get(x, 0) isa String
+            return convert(Array{String}, x)
+        elseif x_kind == "O"
+            return map(z -> convert(PyAny, z), convert(PyAny, x))
+        end
     end
+    convert(PyAny, x)
 end
 
 Base.Array(x::PandasWrapped) = Array(x."values")
 
 function Base.values(x::PandasWrapped)
     # Zero-copy conversion to a Julia native type is possible
-    x_kind = x.dtype.kind
-    if x_kind in ["i", "u", "f", "b"]
-        pyarray = convert(PyArray, x."values")
-        if pyarray.f_contig
-            dims, T, ptr = size(pyarray), eltype(pyarray), pyarray.data
-            if Int(ptr) % Base.datatype_alignment(T) == 0
-                unsafe_wrap(Array, ptr, dims)
-            else
-                Aflat = unsafe_wrap(Array, Ptr{UInt8}(ptr), prod(dims) * sizeof(T))
-                A = reshape(reinterpret(T, Aflat), dims)
+    if hasproperty(x.pyo, :dtype)
+        x_kind = x.dtype.kind
+        if x_kind in ["i", "u", "f", "b"]
+            pyarray = convert(PyArray, x."values")
+            if pyarray.f_contig
+                dims, T, ptr = size(pyarray), eltype(pyarray), pyarray.data
+                if Int(ptr) % Base.datatype_alignment(T) == 0
+                    return unsafe_wrap(Array, ptr, dims)
+                else
+                    Aflat = unsafe_wrap(Array, Ptr{UInt8}(ptr), prod(dims) * sizeof(T))
+                    return reshape(reinterpret(T, Aflat), dims)
+                end
             end
-        else
-            Array(pyarray)
         end
-    else
-        Array(x)
     end
+    Array(x)
 end
 
 struct StringRange{T <: AbstractString}
@@ -163,12 +164,15 @@ macro pyasvec(class)
     end
 end
 
-@pytype DataFrame () -> pd.core.frame.DataFrame
-@pytype Series () -> pd.core.series.Series
-@pytype Iloc () -> pd.core.indexing._iLocIndexer
-@pytype Loc () -> pd.core.indexing._LocIndexer
-@pytype Index () -> version() < VersionNumber(1) ? pd.core.index.Index : pd.core.indexes.multi.Index 
-@pytype MultiIndex () -> version() < VersionNumber(1) ? pd.core.index.MultiIndex : pd.core.indexes.multi.MultiIndex
+@pytype DataFrame () -> pd.core.frame."DataFrame"
+@pytype Series () -> pd.core.series."Series"
+@pytype Iloc () -> pd.core.indexing."_iLocIndexer"
+@pytype Loc () -> pd.core.indexing."_LocIndexer"
+@pytype Index () -> version() < VersionNumber(1) ? pd.core.index."Index" : pd.core.indexes.multi."Index"
+@pytype MultiIndex () -> version() < VersionNumber(1) ? pd.core.index."MultiIndex" : pd.core.indexes.multi."MultiIndex"
+@pytype GroupBy () -> pd.core.groupby."DataFrameGroupBy"
+@pytype SeriesGroupBy () -> pd.core.groupby."SeriesGroupBy"
+@pytype Rolling () -> pd.core.window."Rolling"
 
 Base.size(x::Union{Loc, Iloc}) = x.obj.shape
 Base.size(df::PandasWrapped, i::Integer) = size(df)[i]
@@ -187,6 +191,9 @@ should_offset(::Union{Iloc, Index, MultiIndex}, args...) = true
 @pyasvec DataFrame
 @pyasvec Index
 @pyasvec MultiIndex
+@pyasvec GroupBy
+@pyasvec SeriesGroupBy
+@pyasvec Rolling
 
 Base.show(io::IO, df::PandasWrapped) = println(io, df.__str__())
 

@@ -31,9 +31,13 @@ x = pd.Series([3, 5], index = [:a, :b])
 @test eltype(x) == Int
 @test all(x.iloc[1:2] == x)
 
-# Rolling
-roll = Series([1,2,3,4,5]).rolling(3)
+# rolling
+roll = pd.Series([1,2,3,4,5]).rolling(3)
 @test isequal(values(roll.mean()), [NaN, NaN, 2.0, 3.0, 4.0])
+
+# groupy
+group = pd.DataFrame(Dict("group" => ["a", "b", "a"], "value" => [1, 2, 3])).groupby("group")[["value"]]
+@test isequal(values(group.sum()), [4; 2;;])
 
 df = pd.DataFrame()
 df["a"] = [1]
