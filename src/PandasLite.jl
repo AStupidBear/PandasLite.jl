@@ -174,6 +174,8 @@ end
 @pytype SeriesGroupBy () -> pd.core.groupby."SeriesGroupBy"
 @pytype Rolling () -> pd.core.window."Rolling"
 
+export DataFrame, Series, Iloc, Index, MultiIndex, GroupBy, SeriesGroupBy, Rolling
+
 Base.size(x::Union{Loc, Iloc}) = x.obj.shape
 Base.size(df::PandasWrapped, i::Integer) = size(df)[i]
 Base.size(df::PandasWrapped) = df.shape
