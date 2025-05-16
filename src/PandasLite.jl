@@ -1,4 +1,3 @@
-__precompile__(true)
 module PandasLite
 
 using PyCall
@@ -8,8 +7,6 @@ using Dates
 
 export values, np, pd
 export @pytype, @pyasvec
-
-include("index.jl")
 
 const np = PyNULL()
 const pd = PyNULL()
@@ -75,9 +72,9 @@ function Base.Array(x::PyObject)
     if hasproperty(x, :dtype)
         x_kind = x.dtype.kind
         if x_kind == "M"
-            return map(z -> unix2datetime(z / 1e9), x.view("int64"))
+            return map(z -> unix2datetime(z / 1e9), x.astype("datetime64[ns]").view("int64"))
         elseif x_kind == "m"
-            return map(z -> Millisecond(z / 1e6), x.view("int64"))
+            return map(z -> Millisecond(z / 1e6), x.astype("timedelta64[ns]").view("int64"))
         elseif x_kind == "O" && get(x, 0) isa String
             return convert(Array{String}, x)
         elseif x_kind == "O"
